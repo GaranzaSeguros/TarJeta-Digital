@@ -1,0 +1,10 @@
+# Archivo original del logo, solo sirve como respaldo local
+logo-original.jpeg
+
+# Carpeta de trabajo
+Datos/
+
+# Basura del sistema
+Thumbs.db
+desktop.ini
+.DS_Store
