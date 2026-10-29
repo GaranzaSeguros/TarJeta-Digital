@@ -31,6 +31,13 @@ en la raíz (`index.html`), así que su QR ya impreso sigue funcionando.
   todas las páginas. **No edites a mano los `index.html` generados**: se sobrescriben.
 - Foto opcional en `fotos/<clave>.jpg`; si no existe, no se muestra.
 
+## QR de cada persona
+
+`python generar_qr.py` crea `qr/<clave>.svg` y `qr/<clave>.png` para las 16 personas
+y la hoja `qrs.html` con todos juntos. Cada QR apunta a
+`https://garanzaseguros.github.io/TarJeta-Digital/<clave>/`. Para imprenta, el SVG.
+Requiere `pip install segno pillow`.
+
 ## Datos configurados (Guillermo)
 
 ```
