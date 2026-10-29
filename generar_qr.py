@@ -37,7 +37,8 @@ h1{{font-size:22px;margin:0 0 4px}} p{{color:rgba(0,0,0,.56);margin:0 0 22px;fon
 .t{{background:#fff;border-radius:14px;padding:16px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.08);display:flex;flex-direction:column;gap:4px}}
 .t img{{width:100%;max-width:190px;margin:0 auto}} b{{font-size:15px}} span{{font-size:13px;color:#8a2338;font-weight:600}}
 a{{color:rgba(0,0,0,.6);font-size:11.5px;word-break:break-all}} small{{margin-top:4px}}
-@media print{{body{{background:#fff}}.t{{box-shadow:none;border:1px solid #ccc;break-inside:avoid}}small{{display:none}}}}
+@page{{size:A4;margin:10mm}}
+@media print{{body{{background:#fff;padding:0}}h1{{font-size:18px}}p{{margin-bottom:10px}}.g{{grid-template-columns:repeat(4,1fr);gap:8px;max-width:none}}.t{{box-shadow:none;border:1px solid #ccc;border-radius:8px;padding:8px;break-inside:avoid}}b{{font-size:11px}}span{{font-size:9.5px}}a{{font-size:7px}}small{{display:none}}}}
 </style></head><body>
 <h1>QR de las tarjetas digitales</h1>
 <p>Cada QR abre la tarjeta de esa persona. Para imprenta usa el SVG.</p>
