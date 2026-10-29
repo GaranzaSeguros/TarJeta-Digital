@@ -8,7 +8,10 @@ llamar, escribir por WhatsApp y guardarlo en la agenda.
 
 | Archivo | Para qué sirve |
 |---|---|
-| `index.html` | La página que ve quien escanea. Es la que se publica. |
+| `plantilla.html` | El diseño de la tarjeta. Es el que se edita. |
+| `generar.py` | Genera el `index.html` de cada persona a partir de la plantilla. |
+| `index.html` y `<clave>/index.html` | Páginas generadas. Son las que se publican. |
+| `colaboradores.js` | Los datos de cada persona (nombre, puesto, celular, correo). Una línea por colaborador. |
 | `generador-qr.html` | Genera el QR que se manda a imprimir y prepara las imágenes. |
 | `logo-blanco.png` | Logo en blanco, sin fondo. El que se usa en el encabezado guinda. |
 | `logo.png` | Logo a color, sin fondo. Para el encabezado blanco o para otros usos. |
@@ -16,7 +19,19 @@ llamar, escribir por WhatsApp y guardarlo en la agenda.
 
 Los dos HTML funcionan con doble clic, sin instalar nada y sin conexión.
 
-## Datos configurados
+## Una tarjeta por colaborador
+
+Cada persona tiene su propia página independiente en su carpeta:
+`.../garanza/isanchez/`, `.../garanza/ccampos/`, etc. La de Guillermo también queda
+en la raíz (`index.html`), así que su QR ya impreso sigue funcionando.
+
+- Los datos de cada quien están en `colaboradores.js` (una línea por persona).
+- El diseño está en `plantilla.html`.
+- Después de editar cualquiera de los dos, ejecuta `python generar.py`. Eso reescribe
+  todas las páginas. **No edites a mano los `index.html` generados**: se sobrescriben.
+- Foto opcional en `fotos/<clave>.jpg`; si no existe, no se muestra.
+
+## Datos configurados (Guillermo)
 
 ```
 Guillermo Ortega Reyes
@@ -27,7 +42,7 @@ LinkedIn: linkedin.com/in/guillermo-ortega-reyes-81439536
 Colores:  #8a2338 guinda · #a5b0b6 gris · blanco · negro
 ```
 
-Para cambiarlos, abre `index.html` con el Bloc de notas (clic derecho → Abrir con)
+Para cambiarlos, abre `plantilla.html` con el Bloc de notas (clic derecho → Abrir con)
 y edita el bloque `const DATOS = {` al inicio del script. Es lo único que hay que tocar.
 Lo que dejes en `""` no aparece en la tarjeta.
 

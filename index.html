@@ -37,7 +37,8 @@ body{
 /* ---------- Encabezado ----------
    Dos estilos, se eligen con DATOS.encabezado:
    "guinda" = franja guinda con el logo en blanco
-   "blanco" = franja blanca con el logo a color, y una banda guinda debajo  */
+   "blanco" = franja blanca con el logo a color, y una banda guinda debajo
+   "limpio" = sin franja de color: el logo de 20 años directo sobre blanco  */
 .portada{
   background:var(--primario);
   padding:26px 24px 76px;position:relative;text-align:center;
@@ -55,6 +56,10 @@ body{
 body.enc-blanco .portada{background:var(--blanco);padding:26px 24px 22px}
 body.enc-blanco .portada::after{display:none}
 body.enc-blanco .banda{display:block}
+body.enc-limpio .portada{background:var(--blanco);padding:30px 20px 8px}
+body.enc-limpio .portada::after{display:none}
+body.enc-limpio .logo{max-height:96px;max-width:340px;width:100%}
+body.enc-limpio .foto-cont{margin-top:14px}
 
 .logo{max-height:70px;max-width:250px;object-fit:contain;position:relative;z-index:1}
 .logo-texto{color:var(--blanco);font-size:21px;font-weight:700;letter-spacing:.16em;
@@ -152,7 +157,6 @@ body.enc-blanco .logo-texto{color:var(--primario)}
 
   <div class="foto-cont">
     <img id="foto" class="foto" alt="Fotografía" hidden>
-    <div id="fotoInicial" class="foto-inicial" hidden></div>
   </div>
 
   <div class="identidad">
@@ -196,29 +200,34 @@ body.enc-blanco .logo-texto{color:var(--primario)}
    DATOS DE LA TARJETA. Deja "" en lo que no quieras que aparezca.
    ============================================================ */
 const DATOS = {
-  nombre:        "Guillermo Ortega Reyes",
-  puesto:        "Director General",
+  // Los datos de cada persona (nombre, puesto, celular, correo...) estan en colaboradores.js
+  nombre:        "",
+  puesto:        "",
   empresa:       "Garanza",
   lema:          "",                                  // frase corta opcional
 
-  telefono:      "55 1475 5018",
-  whatsapp:      "55 1475 5018",                      // pon "" si esta linea no tiene WhatsApp
-  email:         "gortega@garanza.com.mx",
+  telefono:      "",                                  // celular de la persona
+  whatsapp:      "",                                  // se llena con el celular
+  telOficina:    "55 5616 3292",                      // conmutador, igual para todos
+  ext:           "",
+  email:         "",
   sitio:         "",                                  // ej. "https://www.garanza.com.mx"
   direccion:     "",                                  // ej. "Av. Principal 123, Col. Centro, CDMX"
 
-  linkedin:      "https://www.linkedin.com/in/guillermo-ortega-reyes-81439536/",
+  linkedin:      "https://www.linkedin.com/company/garanza/posts/?feedView=all",   // de la empresa; una persona puede tener el suyo en colaboradores.js
   facebook:      "",
   instagram:     "",
 
   // Estilo del encabezado:
   //   "guinda" -> franja guinda con el logo en blanco (usa logoBlanco)
   //   "blanco" -> franja blanca con el logo a color y banda guinda debajo (usa logoColor)
-  encabezado:    "guinda",
+  //   "limpio" -> sin franja de color, logo de 20 años sobre blanco (usa logoOscuro)
+  encabezado:    "limpio",
 
   // Imagenes: archivo junto a este HTML, una URL, o un data:image/... en base64
-  foto:          "foto.jpg",
+  foto:          "",                                  // por defecto fotos/<clave>.jpg
   logoBlanco:    "logo-blanco.png",
+  logoOscuro:    "logo-20-anios.png",
   logoColor:     "logo.png",
 
   // Marca
@@ -226,11 +235,28 @@ const DATOS = {
   colorAcento:   "#a5b0b6",                           // gris
 
   paisTelefono:    "52",                              // clave de pais para el enlace de WhatsApp
-  mensajeWhatsapp: "Hola Guillermo, escaneé tu tarjeta y me gustaría contactarte.",
+  mensajeWhatsapp: "Hola {nombre}, escaneé tu tarjeta y me gustaría contactarte.",
   textoPie:        "© 2026 Garanza"
 };
 /* ====== FIN DEL BLOQUE EDITABLE ====== */
 
+
+/* ---------- Persona de esta pagina (la escribe generar.py) ---------- */
+const claveActual = "gortega";
+const RUTA = "";                              // "" en la raiz, "../" en las carpetas
+const P = {"pila": "Guillermo", "apellidos": "Ortega Reyes", "puesto": "Director General", "email": "gortega@garanza.com.mx", "celular": "55 1474 5018", "ext": "3207", "oficina": true};
+Object.assign(DATOS, {
+  nombre:   P.pila + " " + P.apellidos,
+  puesto:   P.puesto,
+  telefono: P.celular,
+  whatsapp: P.celular,
+  email:    P.email,
+  linkedin: P.linkedin || DATOS.linkedin,
+  ext:      P.ext,
+  telOficina: P.oficina ? DATOS.telOficina : "",
+  foto:     RUTA + (P.foto || "fotos/" + claveActual + ".jpg"),
+  mensajeWhatsapp: DATOS.mensajeWhatsapp.replace("{nombre}", P.corto || P.pila.split(" ")[0])
+});
 
 /* ---------- Utilidades ---------- */
 const $ = id => document.getElementById(id);
@@ -264,7 +290,9 @@ document.title = [DATOS.nombre, DATOS.empresa].filter(Boolean).join(" - ") || "T
 // Estilo del encabezado y logo que le corresponde
 const encBlanco = DATOS.encabezado === "blanco";
 if (encBlanco) document.body.classList.add("enc-blanco");
-const archivoLogo = encBlanco ? DATOS.logoColor : DATOS.logoBlanco;
+const encLimpio = DATOS.encabezado === "limpio";
+if (encLimpio) document.body.classList.add("enc-limpio");
+const archivoLogo = RUTA + (encBlanco ? DATOS.logoColor : encLimpio ? DATOS.logoOscuro : DATOS.logoBlanco);
 
 // Logo: si el archivo no carga, se muestra el nombre de la empresa como texto
 if (archivoLogo) {
@@ -279,18 +307,14 @@ function mostrarLogoTexto(){
   $("logoTexto").hidden = false;
 }
 
-// Foto: si no carga, se muestran las iniciales
-const iniciales = (DATOS.nombre || "?").trim().split(/\s+/).slice(0, 2).map(p => p[0]).join("").toUpperCase();
-function mostrarIniciales(){
-  $("fotoInicial").textContent = iniciales;
-  $("fotoInicial").hidden = false;
-}
+// Foto: si no existe o no carga, se oculta todo el bloque (sin circulo ni iniciales)
+function ocultarFoto(){ document.querySelector(".foto-cont").hidden = true; }
 if (DATOS.foto) {
   const f = $("foto");
-  f.onerror = () => { f.hidden = true; mostrarIniciales(); };
+  f.onerror = ocultarFoto;
   f.src = DATOS.foto;
   f.hidden = false;
-} else mostrarIniciales();
+} else ocultarFoto();
 
 $("nombre").textContent  = DATOS.nombre;
 $("puesto").textContent  = DATOS.puesto;
@@ -299,7 +323,9 @@ if (DATOS.lema) { $("lema").textContent = DATOS.lema; $("lema").hidden = false; 
 $("pieTexto").textContent = DATOS.textoPie || "";
 
 // Botones principales
-if (DATOS.telefono) $("btnLlamar").href = "tel:" + telInternacional(DATOS.telefono);
+const hrefOficina = DATOS.telOficina ? "tel:" + telInternacional(DATOS.telOficina) + (DATOS.ext ? "," + DATOS.ext : "") : "";
+const hrefLlamar  = DATOS.telefono ? "tel:" + telInternacional(DATOS.telefono) : hrefOficina;
+if (hrefLlamar) $("btnLlamar").href = hrefLlamar;
 else $("btnLlamar").hidden = true;
 
 if (DATOS.whatsapp) {
@@ -307,12 +333,13 @@ if (DATOS.whatsapp) {
                   + "?text=" + encodeURIComponent(DATOS.mensajeWhatsapp || "");
 } else {
   $("btnWa").hidden = true;
-  if (DATOS.telefono) $("btnLlamar").classList.add("btn-ancho");
+  if (hrefLlamar) $("btnLlamar").classList.add("btn-ancho");
 }
 
 // Lista de contacto
 const filas = [];
-if (DATOS.telefono)  filas.push(["tel",  "Teléfono",  DATOS.telefono, "tel:" + telInternacional(DATOS.telefono)]);
+if (DATOS.telefono)  filas.push(["tel",  "Celular",   DATOS.telefono, "tel:" + telInternacional(DATOS.telefono)]);
+if (DATOS.telOficina) filas.push(["tel", "Oficina",   DATOS.telOficina + (DATOS.ext ? "  ext. " + DATOS.ext : ""), hrefOficina]);
 if (DATOS.email)     filas.push(["mail", "Correo",    DATOS.email,    "mailto:" + DATOS.email]);
 if (DATOS.sitio)     filas.push(["web",  "Sitio web", DATOS.sitio.replace(/^https?:\/\//, ""), DATOS.sitio]);
 if (DATOS.direccion) filas.push(["mapa", "Dirección", DATOS.direccion,
@@ -340,17 +367,14 @@ function plegar(linea){                       // vCard exige lineas de max. 75 c
   return out;
 }
 function construirVcf(){
-  const partes = (DATOS.nombre || "").trim().split(/\s+/);
-  // En español lo habitual es un nombre y dos apellidos; con 4 partes se asumen dos nombres
-  const corte = partes.length >= 4 ? 2 : 1;
-  const nombrePila = partes.slice(0, corte).join(" ");
-  const apellidos  = partes.slice(corte).join(" ");
+  const nombrePila = P.pila, apellidos = P.apellidos;
   const l = ["BEGIN:VCARD", "VERSION:3.0",
              "N:" + apellidos + ";" + nombrePila + ";;;",
              "FN:" + DATOS.nombre];
   if (DATOS.empresa)   l.push("ORG:" + DATOS.empresa);
   if (DATOS.puesto)    l.push("TITLE:" + DATOS.puesto);
   if (DATOS.telefono)  l.push("TEL;TYPE=CELL,VOICE:" + telInternacional(DATOS.telefono));
+  if (DATOS.telOficina) l.push("TEL;TYPE=WORK,VOICE:" + telInternacional(DATOS.telOficina) + (DATOS.ext ? ",," + DATOS.ext : ""));
   if (DATOS.whatsapp && telInternacional(DATOS.whatsapp) !== telInternacional(DATOS.telefono))
                        l.push("TEL;TYPE=CELL:" + telInternacional(DATOS.whatsapp));
   if (DATOS.email)     l.push("EMAIL;TYPE=INTERNET,WORK:" + DATOS.email);

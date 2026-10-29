@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tarjeta de presentación</title>
+<meta name="theme-color" content="#8a2338">
+<style>
+:root{
+  --primario:#8a2338;   /* guinda Garanza */
+  --acento:#a5b0b6;     /* gris */
+  --negro:#000000;
+  --blanco:#ffffff;
+  --texto-suave:rgba(0,0,0,.56);
+  --borde:rgba(165,176,182,.5);
+  --sombra:0 18px 45px rgba(0,0,0,.22);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  font-family:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  background:var(--acento);
+  color:var(--negro);
+  min-height:100vh;
+  display:flex;align-items:flex-start;justify-content:center;
+  padding:0 0 40px;
+}
+.tarjeta{
+  width:100%;max-width:430px;background:var(--blanco);
+  box-shadow:var(--sombra);overflow:hidden;position:relative;
+}
+@media(min-width:520px){
+  body{padding:32px 16px 48px;align-items:center}
+  .tarjeta{border-radius:24px}
+}
+
+/* ---------- Encabezado ----------
+   Dos estilos, se eligen con DATOS.encabezado:
+   "guinda" = franja guinda con el logo en blanco
+   "blanco" = franja blanca con el logo a color, y una banda guinda debajo
+   "limpio" = sin franja de color: el logo de 20 años directo sobre blanco  */
+.portada{
+  background:var(--primario);
+  padding:26px 24px 76px;position:relative;text-align:center;
+}
+.portada::after{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 78% -12%,rgba(255,255,255,.16),transparent 58%);
+  pointer-events:none;
+}
+.banda{display:none;height:100px;background:var(--primario);position:relative}
+.banda::after{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 78% -30%,rgba(255,255,255,.16),transparent 58%);
+}
+body.enc-blanco .portada{background:var(--blanco);padding:26px 24px 22px}
+body.enc-blanco .portada::after{display:none}
+body.enc-blanco .banda{display:block}
+body.enc-limpio .portada{background:var(--blanco);padding:30px 20px 8px}
+body.enc-limpio .portada::after{display:none}
+body.enc-limpio .logo{max-height:96px;max-width:340px;width:100%}
+body.enc-limpio .foto-cont{margin-top:14px}
+
+.logo{max-height:70px;max-width:250px;object-fit:contain;position:relative;z-index:1}
+.logo-texto{color:var(--blanco);font-size:21px;font-weight:700;letter-spacing:.16em;
+  text-transform:uppercase;position:relative;z-index:1}
+body.enc-blanco .logo-texto{color:var(--primario)}
+
+.foto-cont{margin-top:-64px;display:flex;justify-content:center;position:relative;z-index:2}
+.foto{
+  width:132px;height:132px;border-radius:50%;object-fit:cover;
+  border:5px solid var(--blanco);background:var(--acento);
+  box-shadow:0 10px 26px rgba(0,0,0,.25);
+}
+.foto-inicial{
+  width:132px;height:132px;border-radius:50%;
+  border:5px solid var(--blanco);background:var(--primario);
+  color:var(--blanco);font-size:44px;font-weight:600;letter-spacing:.02em;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 10px 26px rgba(0,0,0,.25);
+}
+
+/* ---------- Identidad ---------- */
+.identidad{text-align:center;padding:18px 26px 4px}
+.nombre{font-size:25px;font-weight:700;margin:0;letter-spacing:-.01em;line-height:1.2}
+.puesto{color:var(--primario);font-weight:600;font-size:15px;margin:7px 0 3px;
+  text-transform:uppercase;letter-spacing:.08em}
+.empresa{color:var(--texto-suave);font-size:14px;margin:0}
+.lema{color:var(--texto-suave);font-size:13.5px;line-height:1.5;margin:14px 0 0;font-style:italic}
+
+/* ---------- Botones principales ---------- */
+.acciones{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:22px 22px 6px}
+.btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px 10px;border-radius:12px;border:0;cursor:pointer;
+  font-size:14.5px;font-weight:600;text-decoration:none;
+  font-family:inherit;transition:transform .12s ease;
+}
+.btn:active{transform:scale(.97)}
+.btn-lleno{background:var(--primario);color:var(--blanco);box-shadow:0 6px 16px rgba(138,35,56,.3)}
+.btn-negro{background:var(--negro);color:var(--blanco);box-shadow:0 6px 16px rgba(0,0,0,.25)}
+.btn-linea{background:var(--blanco);color:var(--primario);border:1.5px solid var(--primario)}
+.btn-gris{background:var(--blanco);color:var(--negro);border:1.5px solid var(--borde)}
+.btn-ancho{grid-column:1 / -1}
+.btn svg{width:18px;height:18px;flex:none}
+
+/* ---------- Lista de contacto ---------- */
+.contactos{padding:20px 22px 4px;display:flex;flex-direction:column;gap:2px}
+.fila{
+  display:flex;align-items:center;gap:14px;padding:13px 8px;
+  border-radius:12px;text-decoration:none;color:inherit;
+  border-bottom:1px solid var(--borde);transition:background .15s ease;
+}
+.fila:last-child{border-bottom:0}
+.fila:hover{background:rgba(165,176,182,.16)}
+.icono{
+  width:42px;height:42px;border-radius:12px;flex:none;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(138,35,56,.09);color:var(--primario);
+}
+.icono svg{width:19px;height:19px}
+.fila-txt{min-width:0}
+.fila-et{display:block;font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;
+  color:var(--texto-suave);font-weight:600}
+.fila-val{display:block;font-size:15px;margin-top:2px;word-break:break-word;line-height:1.35}
+
+/* ---------- Redes ---------- */
+.redes{display:flex;justify-content:center;gap:12px;padding:22px 22px 4px;flex-wrap:wrap}
+.red{
+  width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:var(--primario);color:var(--blanco);text-decoration:none;transition:transform .12s ease;
+}
+.red:active{transform:scale(.92)}
+.red svg{width:21px;height:21px}
+
+.pie{text-align:center;padding:24px 22px 26px;color:var(--texto-suave);font-size:12px}
+.pie .btn{width:100%}
+.aviso{
+  position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);
+  background:var(--negro);color:var(--blanco);padding:11px 20px;border-radius:30px;font-size:13.5px;
+  opacity:0;pointer-events:none;transition:.25s ease;z-index:50;box-shadow:0 8px 24px rgba(0,0,0,.35);
+  max-width:88vw;text-align:center
+}
+.aviso.ver{opacity:1;transform:translateX(-50%) translateY(0)}
+[hidden]{display:none!important}
+@media print{body{background:#fff}.acciones,.redes{display:none}}
+</style>
+</head>
+<body>
+
+<div class="tarjeta">
+  <div class="portada">
+    <img id="logo" class="logo" alt="Logo" hidden>
+    <div id="logoTexto" class="logo-texto" hidden></div>
+  </div>
+  <div class="banda"></div>
+
+  <div class="foto-cont">
+    <img id="foto" class="foto" alt="Fotografía" hidden>
+  </div>
+
+  <div class="identidad">
+    <h1 class="nombre" id="nombre"></h1>
+    <p class="puesto" id="puesto"></p>
+    <p class="empresa" id="empresa"></p>
+    <p class="lema" id="lema" hidden></p>
+  </div>
+
+  <div class="acciones">
+    <a class="btn btn-lleno" id="btnLlamar" href="#">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.7.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.7.1.4 0 .7-.2 1l-2.3 2.1z"/></svg>
+      Llamar
+    </a>
+    <a class="btn btn-negro" id="btnWa" href="#" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2m0 2a8 8 0 1 1-4.1 14.9l-.3-.2-3 .8.8-3-.2-.3A8 8 0 0 1 12 4m-3.4 4.3c-.2 0-.5.1-.7.3-.3.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.7 2.8 4.3 3.8 2.1.8 2.6.7 3 .6.6-.1 1.7-.7 2-1.4.2-.7.2-1.2.2-1.4l-.6-.3-1.6-.8c-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.4 6.4 0 0 1-3.2-2.8c-.1-.2 0-.4.1-.5l.5-.6c.1-.2.2-.3.2-.5s0-.4-.1-.5l-.8-1.7c-.2-.4-.4-.4-.6-.4z"/></svg>
+      WhatsApp
+    </a>
+    <button class="btn btn-linea btn-ancho" id="btnGuardar">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a1 1 0 0 1 1 1v8.6l2.3-2.3a1 1 0 1 1 1.4 1.4l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 0 1 1.4-1.4l2.3 2.3V4a1 1 0 0 1 1-1M4 17a1 1 0 0 1 1 1v1h14v-1a1 1 0 1 1 2 0v2a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1"/></svg>
+      Guardar contacto
+    </button>
+  </div>
+
+  <div class="contactos" id="contactos"></div>
+  <div class="redes" id="redes"></div>
+
+  <div class="pie">
+    <button class="btn btn-gris btn-ancho" id="btnCompartir" style="margin-bottom:18px">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 16.1c-.8 0-1.5.3-2 .8l-7.1-4.2c.1-.2.1-.5.1-.7s0-.5-.1-.7L16 7.1c.5.5 1.2.8 2 .8a3 3 0 1 0-3-3c0 .3 0 .5.1.7L8 9.9a3 3 0 1 0 0 4.2l7.1 4.2c-.1.2-.1.4-.1.6a3 3 0 1 0 3-2.8"/></svg>
+      Compartir mi tarjeta
+    </button>
+    <div id="pieTexto"></div>
+  </div>
+</div>
+
+<div class="aviso" id="aviso"></div>
+
+<script>
+/* ============================================================
+   DATOS DE LA TARJETA. Deja "" en lo que no quieras que aparezca.
+   ============================================================ */
+const DATOS = {
+  // Los datos de cada persona (nombre, puesto, celular, correo...) estan en colaboradores.js
+  nombre:        "",
+  puesto:        "",
+  empresa:       "Garanza",
+  lema:          "",                                  // frase corta opcional
+
+  telefono:      "",                                  // celular de la persona
+  whatsapp:      "",                                  // se llena con el celular
+  telOficina:    "55 5616 3292",                      // conmutador, igual para todos
+  ext:           "",
+  email:         "",
+  sitio:         "",                                  // ej. "https://www.garanza.com.mx"
+  direccion:     "",                                  // ej. "Av. Principal 123, Col. Centro, CDMX"
+
+  linkedin:      "https://www.linkedin.com/company/garanza/posts/?feedView=all",   // de la empresa; una persona puede tener el suyo en colaboradores.js
+  facebook:      "",
+  instagram:     "",
+
+  // Estilo del encabezado:
+  //   "guinda" -> franja guinda con el logo en blanco (usa logoBlanco)
+  //   "blanco" -> franja blanca con el logo a color y banda guinda debajo (usa logoColor)
+  //   "limpio" -> sin franja de color, logo de 20 años sobre blanco (usa logoOscuro)
+  encabezado:    "limpio",
+
+  // Imagenes: archivo junto a este HTML, una URL, o un data:image/... en base64
+  foto:          "",                                  // por defecto fotos/<clave>.jpg
+  logoBlanco:    "logo-blanco.png",
+  logoOscuro:    "logo-20-anios.png",
+  logoColor:     "logo.png",
+
+  // Marca
+  colorPrimario: "#8a2338",                           // guinda
+  colorAcento:   "#a5b0b6",                           // gris
+
+  paisTelefono:    "52",                              // clave de pais para el enlace de WhatsApp
+  mensajeWhatsapp: "Hola {nombre}, escaneé tu tarjeta y me gustaría contactarte.",
+  textoPie:        "© 2026 Garanza"
+};
+/* ====== FIN DEL BLOQUE EDITABLE ====== */
+
+
+/* ---------- Persona de esta pagina (la escribe generar.py) ---------- */
+const claveActual = "mmendez";
+const RUTA = "../";                              // "" en la raiz, "../" en las carpetas
+const P = {"pila": "Mauricio Agdabel", "apellidos": "Méndez Ávila", "puesto": "Auxiliar Administrativo", "email": "mmdendez@garanza.com.mx", "celular": "55 4090 9512", "ext": "", "oficina": true};
+Object.assign(DATOS, {
+  nombre:   P.pila + " " + P.apellidos,
+  puesto:   P.puesto,
+  telefono: P.celular,
+  whatsapp: P.celular,
+  email:    P.email,
+  linkedin: P.linkedin || DATOS.linkedin,
+  ext:      P.ext,
+  telOficina: P.oficina ? DATOS.telOficina : "",
+  foto:     RUTA + (P.foto || "fotos/" + claveActual + ".jpg"),
+  mensajeWhatsapp: DATOS.mensajeWhatsapp.replace("{nombre}", P.corto || P.pila.split(" ")[0])
+});
+
+/* ---------- Utilidades ---------- */
+const $ = id => document.getElementById(id);
+const soloTel = t => (t || "").replace(/[^\d+]/g, "");
+const escapar = t => (t || "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
+
+// Numero en formato internacional para tel: y wa.me
+function telInternacional(t){
+  const n = soloTel(t);
+  if (!n) return "";
+  if (n.startsWith("+")) return n;
+  return "+" + (DATOS.paisTelefono || "") + n;
+}
+
+const ICONOS = {
+  tel:  '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.7.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.7.1.4 0 .7-.2 1l-2.3 2.1z"/></svg>',
+  mail: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2m8 7L4.4 6.3 4 6v.6l8 5 8-5V6l-.4.3z"/></svg>',
+  web:  '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20m6.9 7h-3a15 15 0 0 0-1.3-4.1A8 8 0 0 1 18.9 9M12 4.1c.7 1 1.3 2.5 1.6 4.9h-3.2c.3-2.4.9-3.9 1.6-4.9M4.3 14A8 8 0 0 1 4 12c0-.7.1-1.4.3-2h3.4a17 17 0 0 0 0 4zm.8 2h3a15 15 0 0 0 1.3 4.1A8 8 0 0 1 5.1 16m3-7h-3a8 8 0 0 1 4.3-4.1A15 15 0 0 0 8.1 9M12 19.9c-.7-1-1.3-2.5-1.6-4.9h3.2c-.3 2.4-.9 3.9-1.6 4.9m1.9-6.9h-3.8a15 15 0 0 1 0-4h3.8a15 15 0 0 1 0 4m.7 7.1a15 15 0 0 0 1.3-4.1h3a8 8 0 0 1-4.3 4.1m1.7-6.1a17 17 0 0 0 0-4h3.4c.2.6.3 1.3.3 2s-.1 1.4-.3 2z"/></svg>',
+  mapa: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7m0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5"/></svg>',
+  in:   '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M3 9h4v12H3zm7 0h3.8v1.7h.1c.5-1 1.8-2 3.7-2 4 0 4.7 2.5 4.7 5.8V21h-4v-5.6c0-1.3 0-3-1.9-3s-2.1 1.4-2.1 2.9V21h-4z"/></svg>',
+  fb:   '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12"/></svg>',
+  ig:   '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.9c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1s-3.6 0-4.9-.1c-3.2-.1-4.8-1.7-4.9-4.9-.1-1.3-.1-1.6-.1-4.9s0-3.5.1-4.8c.1-3.2 1.7-4.8 4.9-4.9C8.4 2.2 8.8 2.2 12 2.2m0 3.1a6.7 6.7 0 1 0 0 13.4 6.7 6.7 0 0 0 0-13.4m0 11a4.3 4.3 0 1 1 0-8.6 4.3 4.3 0 0 1 0 8.6m6.9-11.2a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2"/></svg>'
+};
+
+/* ---------- Pintar la tarjeta ---------- */
+document.documentElement.style.setProperty("--primario", DATOS.colorPrimario);
+document.documentElement.style.setProperty("--acento", DATOS.colorAcento);
+document.querySelector('meta[name="theme-color"]').content = DATOS.colorPrimario;
+document.title = [DATOS.nombre, DATOS.empresa].filter(Boolean).join(" - ") || "Tarjeta de presentacion";
+
+// Estilo del encabezado y logo que le corresponde
+const encBlanco = DATOS.encabezado === "blanco";
+if (encBlanco) document.body.classList.add("enc-blanco");
+const encLimpio = DATOS.encabezado === "limpio";
+if (encLimpio) document.body.classList.add("enc-limpio");
+const archivoLogo = RUTA + (encBlanco ? DATOS.logoColor : encLimpio ? DATOS.logoOscuro : DATOS.logoBlanco);
+
+// Logo: si el archivo no carga, se muestra el nombre de la empresa como texto
+if (archivoLogo) {
+  const l = $("logo");
+  l.onerror = () => { l.hidden = true; mostrarLogoTexto(); };
+  l.src = archivoLogo;
+  l.hidden = false;
+} else mostrarLogoTexto();
+function mostrarLogoTexto(){
+  if (!DATOS.empresa) return;
+  $("logoTexto").textContent = DATOS.empresa;
+  $("logoTexto").hidden = false;
+}
+
+// Foto: si no existe o no carga, se oculta todo el bloque (sin circulo ni iniciales)
+function ocultarFoto(){ document.querySelector(".foto-cont").hidden = true; }
+if (DATOS.foto) {
+  const f = $("foto");
+  f.onerror = ocultarFoto;
+  f.src = DATOS.foto;
+  f.hidden = false;
+} else ocultarFoto();
+
+$("nombre").textContent  = DATOS.nombre;
+$("puesto").textContent  = DATOS.puesto;
+$("empresa").textContent = DATOS.empresa;
+if (DATOS.lema) { $("lema").textContent = DATOS.lema; $("lema").hidden = false; }
+$("pieTexto").textContent = DATOS.textoPie || "";
+
+// Botones principales
+const hrefOficina = DATOS.telOficina ? "tel:" + telInternacional(DATOS.telOficina) + (DATOS.ext ? "," + DATOS.ext : "") : "";
+const hrefLlamar  = DATOS.telefono ? "tel:" + telInternacional(DATOS.telefono) : hrefOficina;
+if (hrefLlamar) $("btnLlamar").href = hrefLlamar;
+else $("btnLlamar").hidden = true;
+
+if (DATOS.whatsapp) {
+  $("btnWa").href = "https://wa.me/" + telInternacional(DATOS.whatsapp).replace("+", "")
+                  + "?text=" + encodeURIComponent(DATOS.mensajeWhatsapp || "");
+} else {
+  $("btnWa").hidden = true;
+  if (hrefLlamar) $("btnLlamar").classList.add("btn-ancho");
+}
+
+// Lista de contacto
+const filas = [];
+if (DATOS.telefono)  filas.push(["tel",  "Celular",   DATOS.telefono, "tel:" + telInternacional(DATOS.telefono)]);
+if (DATOS.telOficina) filas.push(["tel", "Oficina",   DATOS.telOficina + (DATOS.ext ? "  ext. " + DATOS.ext : ""), hrefOficina]);
+if (DATOS.email)     filas.push(["mail", "Correo",    DATOS.email,    "mailto:" + DATOS.email]);
+if (DATOS.sitio)     filas.push(["web",  "Sitio web", DATOS.sitio.replace(/^https?:\/\//, ""), DATOS.sitio]);
+if (DATOS.direccion) filas.push(["mapa", "Dirección", DATOS.direccion,
+                                 "https://maps.google.com/?q=" + encodeURIComponent(DATOS.direccion)]);
+$("contactos").innerHTML = filas.map(f => {
+  const externo = f[3].startsWith("http") ? ' target="_blank" rel="noopener"' : "";
+  return '<a class="fila" href="' + escapar(f[3]) + '"' + externo + '>'
+       +   '<span class="icono">' + ICONOS[f[0]] + '</span>'
+       +   '<span class="fila-txt"><span class="fila-et">' + escapar(f[1]) + '</span>'
+       +   '<span class="fila-val">' + escapar(f[2]) + '</span></span>'
+       + '</a>';
+}).join("");
+
+// Redes
+const redes = [["in", DATOS.linkedin], ["fb", DATOS.facebook], ["ig", DATOS.instagram]].filter(r => r[1]);
+$("redes").innerHTML = redes.map(r =>
+  '<a class="red" href="' + escapar(r[1]) + '" target="_blank" rel="noopener" aria-label="' + r[0] + '">'
+  + ICONOS[r[0]] + '</a>').join("");
+
+/* ---------- Guardar contacto (.vcf) ---------- */
+function plegar(linea){                       // vCard exige lineas de max. 75 caracteres
+  if (linea.length <= 74) return linea;
+  let out = linea.slice(0, 74), resto = linea.slice(74);
+  while (resto.length) { out += "\r\n " + resto.slice(0, 73); resto = resto.slice(73); }
+  return out;
+}
+function construirVcf(){
+  const nombrePila = P.pila, apellidos = P.apellidos;
+  const l = ["BEGIN:VCARD", "VERSION:3.0",
+             "N:" + apellidos + ";" + nombrePila + ";;;",
+             "FN:" + DATOS.nombre];
+  if (DATOS.empresa)   l.push("ORG:" + DATOS.empresa);
+  if (DATOS.puesto)    l.push("TITLE:" + DATOS.puesto);
+  if (DATOS.telefono)  l.push("TEL;TYPE=CELL,VOICE:" + telInternacional(DATOS.telefono));
+  if (DATOS.telOficina) l.push("TEL;TYPE=WORK,VOICE:" + telInternacional(DATOS.telOficina) + (DATOS.ext ? ",," + DATOS.ext : ""));
+  if (DATOS.whatsapp && telInternacional(DATOS.whatsapp) !== telInternacional(DATOS.telefono))
+                       l.push("TEL;TYPE=CELL:" + telInternacional(DATOS.whatsapp));
+  if (DATOS.email)     l.push("EMAIL;TYPE=INTERNET,WORK:" + DATOS.email);
+  if (DATOS.sitio)     l.push("URL:" + DATOS.sitio);
+  if (DATOS.linkedin)  l.push(plegar("URL;TYPE=LinkedIn:" + DATOS.linkedin));
+  if (DATOS.direccion) l.push("ADR;TYPE=WORK:;;" + DATOS.direccion.replace(/,/g, "\\,") + ";;;;");
+  if (location.protocol.startsWith("http")) l.push(plegar("URL:" + location.href.split("#")[0]));
+  const m = /^data:image\/(jpeg|jpg|png);base64,(.+)$/i.exec(DATOS.foto || "");
+  if (m) {
+    const tipo = m[1].toUpperCase() === "JPG" ? "JPEG" : m[1].toUpperCase();
+    l.push(plegar("PHOTO;ENCODING=b;TYPE=" + tipo + ":" + m[2]));
+  }
+  l.push("END:VCARD");
+  return l.join("\r\n");
+}
+$("btnGuardar").addEventListener("click", () => {
+  const blob = new Blob([construirVcf()], { type: "text/vcard;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = (DATOS.nombre || "contacto").replace(/\s+/g, "_") + ".vcf";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 4000);
+  avisar("Contacto descargado: ábrelo para agregarlo a tu agenda");
+});
+
+/* ---------- Compartir ---------- */
+$("btnCompartir").addEventListener("click", async () => {
+  const url = location.href.split("#")[0];
+  if (navigator.share) {
+    try { await navigator.share({ title: DATOS.nombre, text: DATOS.nombre + " - " + DATOS.puesto, url }); return; }
+    catch (e) { if (e.name === "AbortError") return; }
+  }
+  try { await navigator.clipboard.writeText(url); avisar("Enlace copiado al portapapeles"); }
+  catch (e) { avisar(url); }
+});
+
+let tAviso;
+function avisar(txt){
+  const a = $("aviso");
+  a.textContent = txt;
+  a.classList.add("ver");
+  clearTimeout(tAviso);
+  tAviso = setTimeout(() => a.classList.remove("ver"), 3200);
+}
+</script>
+</body>
+</html>
