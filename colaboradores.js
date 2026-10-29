@@ -27,6 +27,6 @@ const COLABORADORES = {
   cvillanueva:  { pila: "Cristian",              apellidos: "Villanueva Palma",    puesto: "Abogado",                                 email: "cvillanueva@garanza.com.mx",   celular: "55 5401 1578", ext: "",     oficina: false },
   rislas:       { pila: "Rocío",                 apellidos: "Islas Aragón",        puesto: "Ejecutiva de Siemens",                    email: "rocio.islas_aragon.ext@siemens-energy.com", celular: "55 8022 3455", ext: "", oficina: false },
   atorres:      { pila: "Ana Laura",             apellidos: "Torres",              puesto: "Ejecutiva de Cuenta",                     email: "atorres@garanza.com.mx",       celular: "55 8017 0584", ext: "",     oficina: false },
-  mmendez:      { pila: "Mauricio Agdabel",      apellidos: "Méndez Ávila",        puesto: "Auxiliar Administrativo",                 email: "mmdendez@garanza.com.mx",      celular: "55 4090 9512", ext: "",     oficina: true },
-  avilla:       { pila: "Alejandro",             apellidos: "Villa",               puesto: "Auxiliar Administrativo",                 email: "",                             celular: "55 8006 1052", ext: "3202", oficina: true }
+  mmendez:      { pila: "Mauricio Agdabel",      apellidos: "Méndez Ávila",        puesto: "Auxiliar Administrativo",                 email: "mmendez@garanza.com.mx",      celular: "55 4090 9512", ext: "",     oficina: true },
+  avilla:       { pila: "Alejandro",             apellidos: "Villa",               puesto: "Auxiliar Administrativo",                 email: "avilla@garanza.com.mx",                           celular: "55 8006 1052", ext: "3202", oficina: true }
 };
