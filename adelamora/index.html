@@ -208,7 +208,7 @@ const DATOS = {
 
   telefono:      "",                                  // celular de la persona
   whatsapp:      "",                                  // se llena con el celular
-  telOficina:    "55 5616 3292",                      // conmutador, igual para todos
+  telOficina:    "55 5616 3292",                      // conmutador CDMX; una persona puede traer el suyo (telOficina: ["..","..."]) en colaboradores.js
   ext:           "",
   email:         "",
   sitio:         "",                                  // ej. "https://www.garanza.com.mx"
@@ -253,7 +253,7 @@ Object.assign(DATOS, {
   email:    P.email,
   linkedin: P.linkedin || DATOS.linkedin,
   ext:      P.ext,
-  telOficina: P.oficina ? DATOS.telOficina : "",
+  telOficina: P.oficina ? [].concat(P.telOficina || DATOS.telOficina) : [],
   foto:     RUTA + (P.foto || "fotos/" + claveActual + ".jpg"),
   mensajeWhatsapp: DATOS.mensajeWhatsapp.replace("{nombre}", P.corto || P.pila.split(" ")[0])
 });
@@ -323,7 +323,8 @@ if (DATOS.lema) { $("lema").textContent = DATOS.lema; $("lema").hidden = false; 
 $("pieTexto").textContent = DATOS.textoPie || "";
 
 // Botones principales
-const hrefOficina = DATOS.telOficina ? "tel:" + telInternacional(DATOS.telOficina) + (DATOS.ext ? "," + DATOS.ext : "") : "";
+const telOf = (t, i) => "tel:" + telInternacional(t) + (i === 0 && DATOS.ext ? "," + DATOS.ext : "");
+const hrefOficina = DATOS.telOficina.length ? telOf(DATOS.telOficina[0], 0) : "";
 const hrefLlamar  = DATOS.telefono ? "tel:" + telInternacional(DATOS.telefono) : hrefOficina;
 if (hrefLlamar) $("btnLlamar").href = hrefLlamar;
 else $("btnLlamar").hidden = true;
@@ -339,7 +340,7 @@ if (DATOS.whatsapp) {
 // Lista de contacto
 const filas = [];
 if (DATOS.telefono)  filas.push(["tel",  "Celular",   DATOS.telefono, "tel:" + telInternacional(DATOS.telefono)]);
-if (DATOS.telOficina) filas.push(["tel", "Oficina",   DATOS.telOficina + (DATOS.ext ? "  ext. " + DATOS.ext : ""), hrefOficina]);
+DATOS.telOficina.forEach((t, i) => filas.push(["tel", "Oficina", t + (i === 0 && DATOS.ext ? "  ext. " + DATOS.ext : ""), telOf(t, i)]));
 if (DATOS.email)     filas.push(["mail", "Correo",    DATOS.email,    "mailto:" + DATOS.email]);
 if (DATOS.sitio)     filas.push(["web",  "Sitio web", DATOS.sitio.replace(/^https?:\/\//, ""), DATOS.sitio]);
 if (DATOS.direccion) filas.push(["mapa", "Dirección", DATOS.direccion,
@@ -374,7 +375,7 @@ function construirVcf(){
   if (DATOS.empresa)   l.push("ORG:" + DATOS.empresa);
   if (DATOS.puesto)    l.push("TITLE:" + DATOS.puesto);
   if (DATOS.telefono)  l.push("TEL;TYPE=CELL,VOICE:" + telInternacional(DATOS.telefono));
-  if (DATOS.telOficina) l.push("TEL;TYPE=WORK,VOICE:" + telInternacional(DATOS.telOficina) + (DATOS.ext ? ",," + DATOS.ext : ""));
+  DATOS.telOficina.forEach((t, i) => l.push("TEL;TYPE=WORK,VOICE:" + telInternacional(t) + (i === 0 && DATOS.ext ? ",," + DATOS.ext : "")));
   if (DATOS.whatsapp && telInternacional(DATOS.whatsapp) !== telInternacional(DATOS.telefono))
                        l.push("TEL;TYPE=CELL:" + telInternacional(DATOS.whatsapp));
   if (DATOS.email)     l.push("EMAIL;TYPE=INTERNET,WORK:" + DATOS.email);

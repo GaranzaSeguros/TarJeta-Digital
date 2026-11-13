@@ -6,6 +6,7 @@
    pila / apellidos : como se guardan en la agenda del telefono
    puesto, email    : lo que aparece en la tarjeta
    celular          : llamar, WhatsApp y guardar contacto ("" si no tiene)
+   telOficina       : (opcional) telefono(s) de oficina propios, p. ej. Guadalajara; si no, el 55 5616 3292
    ext              : extension de la oficina ("" si no tiene)
    oficina          : true si se muestra el telefono de oficina
    corto            : (opcional) como se le saluda en WhatsApp; por defecto, su primer nombre
@@ -28,5 +29,6 @@ const COLABORADORES = {
   rislas:       { pila: "Rocío",                 apellidos: "Islas Aragón",        puesto: "Jefa de Oficina",                    email: "rocio.islas_aragon.ext@siemens-energy.com", celular: "55 8022 3455", ext: "", oficina: false },
   atorres:      { pila: "Ana Laura",             apellidos: "Torres",              puesto: "Ejecutiva de Cuenta",                     email: "atorres@garanza.com.mx",       celular: "55 8017 0584", ext: "",     oficina: false },
   mmendez:      { pila: "Mauricio Agdabel",      apellidos: "Méndez Ávila",        puesto: "Auxiliar Administrativo",                 email: "mauricio.mendez.ext@siemens-energy.com",      celular: "55 4090 9512", ext: "",     oficina: false },
-  avilla:       { pila: "Alejandro",             apellidos: "Villa",               puesto: "Auxiliar Administrativo",                 email: "avilla@garanza.com.mx",                           celular: "55 8006 1052", ext: "3202", oficina: true }
+  avilla:       { pila: "Alejandro",             apellidos: "Villa",               puesto: "Auxiliar Administrativo",                 email: "avilla@garanza.com.mx",                           celular: "55 8006 1052", ext: "3202", oficina: true },
+  aalvarado:    { pila: "Adrian",                apellidos: "Alvarado Borrayo",    puesto: "Auxiliar Administrativo",                 email: "aalvarado@garanza.com.mx",     celular: "33 2257 8500", ext: "",     oficina: true, telOficina: ["33 3813 1639", "33 3813 2172"] }
 };
